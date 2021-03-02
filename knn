@@ -1,6 +1,4 @@
 rm(list=ls())
-setwd("C:/Users/syedb/OneDrive - Texas Tech University/z9. applied ml in economics/Spring 2021 class materials/Codes")
-
 #### Figure 7.1
 mower.df <- read.csv("RidingMowers.csv")
 set.seed(111)
@@ -17,7 +15,6 @@ plot(Lot_Size ~ Income, data=train.df, pch=ifelse(train.df$Ownership=="Owner", 1
 text(train.df$Income, train.df$Lot_Size, rownames(train.df), pos=4)
 text(60, 20, "X")
 legend("topright", c("owner", "non-owner", "newhousehold"), pch = c(1, 3, 4))
-
 
 #### Table 7.2
 # initialize normalized training, validation data, complete data frames to originals
@@ -39,22 +36,4 @@ new.norm.df <- predict(norm.values, new.df)
 library(FNN)
 nn <- knn(train = train.norm.df[, 1:2], test = new.norm.df, 
           cl = train.norm.df[, 3], k = 3)
-row.names(train.df)[attr(nn, "nn.index")]
-
-
-### Table 7.3
-library(caret)
-# initialize a data frame with two columns: k, and accuracy.
-accuracy.df <- data.frame(k = seq(1, 14, 1), accuracy = rep(0, 14))
-# compute knn for different k on validation.
-
-for(i in 1:14) {
-  knn.pred <- knn(train.norm.df[, 1:2], valid.norm.df[, 1:2],cl = train.norm.df[, 3], k = i)
-  accuracy.df[i, 2] <- confusionMatrix(as.factor(as.character(knn.pred)), as.factor(valid.norm.df[, 3]) )$overall[1] 
-}
-accuracy.df
-
-
-#### Table 7.4
-knn.pred.new <- knn(mower.norm.df[, 1:2], new.norm.df, cl = mower.norm.df[, 3], k = 4)
 row.names(train.df)[attr(nn, "nn.index")]
