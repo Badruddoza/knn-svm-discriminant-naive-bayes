@@ -1,0 +1,21 @@
+rm(list=ls())
+
+#### Table 11.2
+#install.packages("neuralnet")
+library(neuralnet)
+df <- read.csv("TinyData.csv")
+
+df$Like <- df$Acceptance=="like"
+df$Dislike <- df$Acceptance=="dislike"
+
+set.seed(1)
+nn <- neuralnet(Like + Dislike ~ Salt + Fat, data = df, linear.output = F, hidden = 3)
+
+# display weights
+nn$weights
+
+# display predictions
+prediction(nn)
+
+# plot network
+plot(nn, rep="best")
