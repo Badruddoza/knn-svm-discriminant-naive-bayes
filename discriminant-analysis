@@ -1,0 +1,15 @@
+rm(list=ls())
+
+####Table 12.1
+#install.packages("DiscriMiner")
+library(DiscriMiner)
+mowers.df <- read.csv("RidingMowers.csv")
+da.reg <-linDA(mowers.df[,1:2], mowers.df[,3])
+da.reg$functions
+
+#### Table 12.2
+da.reg <- linDA(mowers.df[,1:2], mowers.df[,3])
+# compute probabilities manually (below); or, use lda() in package MASS with predict()
+propensity.owner <- exp(da.reg$scores[,2])/(exp(da.reg$scores[,1])+exp(da.reg$scores[,2]))
+data.frame(Actual=mowers.df$Ownership, 
+           da.reg$classification, da.reg$scores, propensity.owner=propensity.owner)
