@@ -1,0 +1,27 @@
+rm(list=ls())
+
+#### Table 8.4
+library(e1071)
+delays.df <- read.csv("FlightDelays.csv")
+
+# change numerical variables to categorical first
+delays.df$DAY_WEEK <- factor(delays.df$DAY_WEEK)
+delays.df$DEP_TIME <- factor(delays.df$DEP_TIME)
+# create hourly bins departure time 
+delays.df$CRS_DEP_TIME <- factor(round(delays.df$CRS_DEP_TIME/100))
+
+# Create training and validation sets.
+selected.var <- c(10, 1, 8, 4, 2, 13)
+train.index <- sample(c(1:dim(delays.df)[1]), dim(delays.df)[1]*0.6)  
+train.df <- delays.df[train.index, selected.var]
+valid.df <- delays.df[-train.index, selected.var]
+
+# run naive bayes
+delays.nb <- naiveBayes(Flight.Status ~ ., data = train.df)
+delays.nb
+
+
+#### Table 8.5
+# use prop.table() with margin = 1 to convert a count table to a proportion table, 
+# where each row sums up to 1 (use margin = 2 for column sums).
+prop.table(table(train.df$Flight.Status, train.df$DEST), margin = 1)
