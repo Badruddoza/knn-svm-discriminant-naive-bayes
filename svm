@@ -1,0 +1,25 @@
+# Support vector machine example
+rm(list=ls())
+set.seed(12345)
+
+dat<-read.csv("RidingMowers.csv")
+dat[,3]<-as.factor(dat[,3])
+
+library(e1071)
+svmfit=svm(Ownership ~ ., data=dat,kernel="linear",cost=10,scale=FALSE)
+print(svmfit)
+plot(svmfit, dat)
+
+svmfit=svm(Ownership ~ ., data=dat,kernel="linear",cost=10,scale=TRUE)
+print(svmfit)
+plot(svmfit, dat)
+
+
+svmfit=svm(Ownership ~ ., data=dat,kernel="radial",cost=10,scale=FALSE)
+print(svmfit)
+plot(svmfit, dat)
+
+
+svmfit=svm(Ownership ~ ., data=dat,kernel="radial",cost=10,scale=TRUE)
+print(svmfit)
+plot(svmfit, dat)
